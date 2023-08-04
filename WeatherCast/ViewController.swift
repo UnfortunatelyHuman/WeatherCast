@@ -186,10 +186,8 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
             let tempratureInCelsius = decodedData.current.temp_c
             let tempratureInFahrenheit = decodedData.current.temp_f
             let weatherConditionCode = decodedData.current.condition.code
-            
-            //TODO: Fetch Condition Name And Icon Name From API
-            let weatherConditionName = "Sunny"
-            let weatherIconName = "sun.max.circle.fill"
+            let weatherConditionName = getWeatherConditionName(conditionCode: decodedData.current.condition.code)
+            let weatherIconName = self.getWeatherImageIconName(weatherConditionCode: weatherConditionCode)
             
             let weather = WeatherModel(cityName: cityName, cityLAT: cityLAT, cityLON: cityLON, tempratureInCelsius: tempratureInCelsius, tempratureInFahrenheit: tempratureInFahrenheit, weatherConditionCode: weatherConditionCode, weatherConditionName: weatherConditionName, weatherIconName: weatherIconName)
             
@@ -197,6 +195,96 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         }catch {
             print(error)
             return nil
+        }
+    }
+    
+    //This will return symbol name to be used depending on the weather condition
+    func getWeatherImageIconName(weatherConditionCode: Int) -> String{
+        switch weatherConditionCode {
+        case 1000:
+            return "sun.max.circle.fill"
+        case 1003:
+            return "cloud.sun.circle.fill"
+        case 1006:
+            return "cloud.circle.fill"
+        case 1009:
+            return "smoke.circle.fill"
+        case 1030:
+            return "cloud.fog.circle.fill"
+        case 1063, 1180:
+            return "cloud.sun.rain.circle.fill"
+        case 1066, 1210, 1069, 1204, 1207, 1237, 1249, 1252, 1261, 1264, 1072, 1150, 1153, 1168, 1171:
+            return "cloud.sleet.circle.fill"
+        case 1087, 1273, 1276:
+            return "cloud.bolt.rain.circle.fill"
+        case 1114:
+            return "wind.snow.circle.fill"
+        case 1117, 1213, 1216, 1219, 1222, 1225, 1255, 1258, 1279, 1282:
+            return "snowflake.circle.fill"
+        case 1135, 1147:
+            return "cloud.fog.circle.fill"
+        case 1183, 1186, 1189, 1192, 1198, 1201, 1240, 1243, 1246:
+            return "cloud.sun.rain.circle.fill"
+        case 1195:
+            return "cloud.heavyrain.circle.fill"
+        default:
+            return "sun.max.circle.fill"
+        }
+    }
+    
+    //This will return weather name from the weather code
+    func getWeatherConditionName(conditionCode: Int) -> String{
+        switch conditionCode{
+        case 1000: return "Sunny"
+        case 1003: return "Partly cloudy"
+        case 1006: return "Cloudy"
+        case 1009: return "Overcast"
+        case 1030: return "Mist"
+        case 1063: return "Patchy rain possible"
+        case 1066: return "Patchy snow possible"
+        case 1069: return "Patchy sleet possible"
+        case 1072: return "Patchy freezing drizzle possible"
+        case 1087: return "Thundery outbreaks possible"
+        case 1114: return "Blowing snow"
+        case 1117: return "Blizzard"
+        case 1135: return "Fog"
+        case 1147: return "Freezing fog"
+        case 1150: return "Patchy light drizzle"
+        case 1153: return "Light drizzle"
+        case 1168: return "Freezing drizzle"
+        case 1171: return "Heavy freezing drizzle"
+        case 1180: return "Patchy light rain"
+        case 1183: return "Light rain"
+        case 1186: return "Moderate rain at times"
+        case 1189: return "Moderate rain"
+        case 1192: return "Heavy rain at times"
+        case 1195: return "Heavy rain"
+        case 1198: return "Light freezing rain"
+        case 1201: return "Moderate or heavy freezing rain"
+        case 1204: return "Light sleet"
+        case 1207: return "Moderate or heavy sleet"
+        case 1210: return "Patchy light snow"
+        case 1213: return "Light snow"
+        case 1216: return "Patchy moderate snow"
+        case 1219: return "Moderate snow"
+        case 1222: return "Patchy heavy snow"
+        case 1225: return "Heavy snow"
+        case 1237: return "Ice pellets"
+        case 1240: return "Light rain shower"
+        case 1243: return "Moderate or heavy rain shower"
+        case 1246: return "Torrential rain shower"
+        case 1249: return "Light sleet showers"
+        case 1252: return "Moderate or heavy sleet showers"
+        case 1255: return "Light snow showers"
+        case 1258: return "Moderate or heavy snow showers"
+        case 1261: return "Light showers of ice pellets"
+        case 1264: return "Moderate or heavy showers of ice pellets"
+        case 1273: return "Patchy light rain with thunder"
+        case 1276: return "Moderate or heavy rain with thunder"
+        case 1279: return "Patchy light snow with thunder"
+        case 1282: return "Moderate or heavy snow with thunder"
+        default:
+            return "ERROR"
         }
     }
 }
