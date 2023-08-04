@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB0195752A7C9AA600FD9700 /* CitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0195742A7C9AA600FD9700 /* CitiesViewController.swift */; };
 		CB6E70132A79701700347675 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6E70122A79701700347675 /* AppDelegate.swift */; };
 		CB6E70152A79701700347675 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6E70142A79701700347675 /* SceneDelegate.swift */; };
 		CB6E70172A79701700347675 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6E70162A79701700347675 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB0195742A7C9AA600FD9700 /* CitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewController.swift; sourceTree = "<group>"; };
 		CB6E700F2A79701700347675 /* WeatherCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB6E70122A79701700347675 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB6E70142A79701700347675 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				CB6E70122A79701700347675 /* AppDelegate.swift */,
 				CB6E70142A79701700347675 /* SceneDelegate.swift */,
 				CB6E70162A79701700347675 /* ViewController.swift */,
+				CB0195742A7C9AA600FD9700 /* CitiesViewController.swift */,
 				CB6E70182A79701700347675 /* Main.storyboard */,
 				CB6E701B2A79701800347675 /* Assets.xcassets */,
 				CB6E701D2A79701800347675 /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB6E70172A79701700347675 /* ViewController.swift in Sources */,
+				CB0195752A7C9AA600FD9700 /* CitiesViewController.swift in Sources */,
 				CB6E70132A79701700347675 /* AppDelegate.swift in Sources */,
 				CB6E70152A79701700347675 /* SceneDelegate.swift in Sources */,
 			);
