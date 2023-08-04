@@ -7,14 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     //User selected temperature unit
     var currentTemperatureUnit = ""
     var currentWeatherTemp = -1
     var currentWeatherInCelsius = 0.0
     var currentWeatherInFahrenheit = 0.0
 
-    @IBOutlet weak var searchField: UIButton!
+    @IBOutlet weak var searchField: UITextField!
     @IBOutlet weak var weatherImage: UIImageView!
     @IBOutlet weak var weatherLabel: UILabel!
     @IBOutlet weak var currentTemprature: UILabel!
@@ -27,6 +27,9 @@ class ViewController: UIViewController {
         
         //Default temp unit
         currentTemperatureUnit = "celsius"
+        
+        //Using delegate for return click on the keyboard
+        searchField.delegate = self
     }
 
     @IBAction func temperatureUnitChangePressed(_ sender: UIButton) {
@@ -59,6 +62,13 @@ class ViewController: UIViewController {
         print("Search Button Pressed")
     }
     
+    //This funciton will be called when user clicks on enter button
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //To close keyboard
+        searchField.endEditing(true)
+        print(searchField.text ?? "")
+        return true
+    }
     
     @IBAction func currentLocationIconPressed(_ sender: UIButton) {
         print("Current Location Icon Pressed")

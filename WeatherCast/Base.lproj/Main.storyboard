@@ -189,7 +189,7 @@
                         <outlet property="currentTemperatureUnitLabel" destination="cW9-1g-wb6" id="PGo-v7-rM5"/>
                         <outlet property="currentTemprature" destination="Z74-Pn-Pbx" id="iui-Zm-Bot"/>
                         <outlet property="currentTempratureUnitButton" destination="TEL-Yg-dcC" id="5av-hU-Dcb"/>
-                        <outlet property="searchField" destination="RCF-5j-jjf" id="wiG-73-XJE"/>
+                        <outlet property="searchField" destination="pya-li-70m" id="FQW-8v-tby"/>
                         <outlet property="weatherImage" destination="Ohx-3W-lXt" id="p1e-Hq-Cia"/>
                         <outlet property="weatherLabel" destination="sEw-8n-r3T" id="YoT-e5-mxM"/>
                         <segue destination="tE4-g2-fkV" kind="show" identifier="goToCitiesScreen" id="L15-IP-mCH"/>
