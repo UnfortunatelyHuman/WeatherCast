@@ -17,6 +17,43 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     var currentWeatherTemp = -1
     var currentWeatherInCelsius = 0.0
     var currentWeatherInFahrenheit = 0.0
+    
+    //Main Object To Store All Information At One Place
+    struct WeatherModel{
+        let cityName: String
+        let cityLAT: Double
+        let cityLON: Double
+        let tempratureInCelsius: Double
+        let tempratureInFahrenheit: Double
+        let weatherConditionCode: Int
+        let weatherConditionName: String
+        let weatherIconName: String
+    }
+
+    //Main Structure For Parsing Data From API
+    struct WeatherData: Decodable{
+        let location: Location
+        let current: Current
+    }
+
+    //Location Structure For WeatherData
+    struct Location: Decodable{
+        let name: String
+        let lat: Double
+        let lon: Double
+    }
+
+    //Current Structure For WeatherData
+    struct Current: Decodable{
+        let temp_c: Double
+        let temp_f: Double
+        let condition: Condition
+    }
+
+    //Condition Fot Current Structure
+    struct Condition: Decodable{
+        let code: Int
+    }
 
     @IBOutlet weak var searchField: UITextField!
     @IBOutlet weak var weatherImage: UIImageView!
@@ -124,13 +161,42 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
                 }
                 
                 if let safeData = data {
-                    print("Data Fetched From URL: \(safeData)")
-                    //TODO: Create A Function That Parses JSON and Update UI Elements.....
+                    if let weather = self.parseJSON(weatherData: safeData){
+                        print("WeatherData Fetched: \(weather)")
+                        
+                        //TODO: weather object has all the data that will be enough to update UI
+                    }
                 }
             })
             
             //4. Start the task
             task.resume()
+        }
+    }
+    
+    //This function will parse data recieved from the API
+    func parseJSON(weatherData: Data) -> WeatherModel?{
+        let decoder = JSONDecoder()
+        
+        do{
+            let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
+            let cityName = decodedData.location.name
+            let cityLAT = decodedData.location.lat
+            let cityLON = decodedData.location.lon
+            let tempratureInCelsius = decodedData.current.temp_c
+            let tempratureInFahrenheit = decodedData.current.temp_f
+            let weatherConditionCode = decodedData.current.condition.code
+            
+            //TODO: Fetch Condition Name And Icon Name From API
+            let weatherConditionName = "Sunny"
+            let weatherIconName = "sun.max.circle.fill"
+            
+            let weather = WeatherModel(cityName: cityName, cityLAT: cityLAT, cityLON: cityLON, tempratureInCelsius: tempratureInCelsius, tempratureInFahrenheit: tempratureInFahrenheit, weatherConditionCode: weatherConditionCode, weatherConditionName: weatherConditionName, weatherIconName: weatherIconName)
+            
+            return weather
+        }catch {
+            print(error)
+            return nil
         }
     }
 }
