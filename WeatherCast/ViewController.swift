@@ -113,7 +113,9 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //To close keyboard
         searchField.endEditing(true)
-        print(searchField.text ?? "")
+        let city = searchField.text ?? "London-Ontario-Canada"
+        let url = fetchWeatherURL(cityOrCoordinates: city)
+        fetchWeatherData(urlInput: url)
         return true
     }
     
