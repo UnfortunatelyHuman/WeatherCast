@@ -12,23 +12,14 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     //API Key
     let key = "1aab60093432467ba0f204559230108"
     
+    //This array will store all the searched cities objects
+    var allCitiesSearched:[WeatherModel] = []
+    
     //User selected temperature unit
     var currentTemperatureUnit = ""
     var currentWeatherTemp = -1
     var currentWeatherInCelsius = 0.0
     var currentWeatherInFahrenheit = 0.0
-    
-    //Main Object To Store All Information At One Place
-    struct WeatherModel{
-        let cityName: String
-        let cityLAT: Double
-        let cityLON: Double
-        let tempratureInCelsius: Double
-        let tempratureInFahrenheit: Double
-        let weatherConditionCode: Int
-        let weatherConditionName: String
-        let weatherIconName: String
-    }
 
     //Main Structure For Parsing Data From API
     struct WeatherData: Decodable{
@@ -69,6 +60,12 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Setting Default Weather To London Ontario Canada
+        let lat = "42.98"
+        let lon = "-81.25"
+        let url = fetchWeatherURL(cityOrCoordinates: "\(lat),\(lon)")
+        fetchWeatherData(urlInput: url)
+        
         //Default temp unit
         currentTemperatureUnit = "celsius"
         
@@ -104,9 +101,12 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         }
     }
     
-    
     @IBAction func searchIconPressed(_ sender: UIButton) {
-        print("Search Button Pressed")
+        //To close keyboard
+        searchField.endEditing(true)
+        let city = searchField.text ?? "London-Ontario-Canada"
+        let url = fetchWeatherURL(cityOrCoordinates: city)
+        fetchWeatherData(urlInput: url)
     }
     
     //This funciton will be called when user clicks on enter button
@@ -140,6 +140,13 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         performSegue(withIdentifier: "goToCitiesScreen", sender: self)
     }
     
+    //This will copy allCitiesSearched to the segue viewcontroller
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let viewController = segue.destination as! CitiesViewController
+        viewController.allCitiesSearched = allCitiesSearched
+        viewController.userTempratureUnitSelected = currentTemperatureUnit
+    }
+    
     //This function will return the url with the city or the coordinate
     func fetchWeatherURL(cityOrCoordinates: String) -> String{
         let baseURL = "https://api.weatherapi.com/v1/current.json?key=\(key)&q=\(cityOrCoordinates)"
@@ -162,15 +169,39 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
                 
                 if let safeData = data {
                     if let weather = self.parseJSON(weatherData: safeData){
-                        print("WeatherData Fetched: \(weather)")
-                        
-                        //TODO: weather object has all the data that will be enough to update UI
+                        self.updateUI(weather: weather)
                     }
                 }
             })
             
             //4. Start the task
             task.resume()
+        }
+    }
+    
+    //Updates UI with fetched data
+    func updateUI(weather: WeatherModel){
+        //Adding weather objects inside allCitiesSearched
+        allCitiesSearched.append(weather)
+        
+        //Updating UI Elements
+        DispatchQueue.main.async {
+            self.cityLabel.text = weather.cityName
+            self.weatherLabel.text = weather.weatherConditionName
+            
+            if(self.currentTemperatureUnit == "celsius"){
+                self.currentTemprature.text = "\(weather.tempratureInCelsius)\("º C")"
+            }else{
+                self.currentTemprature.text = "\(weather.tempratureInFahrenheit)\("º F")"
+            }
+            self.currentWeatherTemp = 1
+            self.currentWeatherInCelsius = weather.tempratureInCelsius
+            self.currentWeatherInFahrenheit = weather.tempratureInFahrenheit
+            
+            //This will set the corresponding image to the view with 2 colors
+            let config = UIImage.SymbolConfiguration(paletteColors: [.white, .orange])
+            self.weatherImage.preferredSymbolConfiguration = config
+            self.weatherImage.image = UIImage(systemName: weather.weatherIconName)
         }
     }
     

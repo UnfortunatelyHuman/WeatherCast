@@ -8,8 +8,13 @@
 import UIKit
 
 class CitiesViewController: UIViewController {
+    var allCitiesSearched:[ WeatherModel] = []
+    var userTempratureUnitSelected = ""
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print(allCitiesSearched)
     }
 }
