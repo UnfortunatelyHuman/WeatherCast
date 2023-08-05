@@ -60,12 +60,6 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Setting Default Weather To London Ontario Canada
-        let lat = "42.98"
-        let lon = "-81.25"
-        let url = fetchWeatherURL(cityOrCoordinates: "\(lat),\(lon)")
-        fetchWeatherData(urlInput: url)
-        
         //Default temp unit
         currentTemperatureUnit = "celsius"
         
